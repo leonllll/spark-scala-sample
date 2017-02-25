@@ -24,7 +24,18 @@ object ReadWriteSample {
   }
 
   def main(args: Array[String]) {
-    readWholeTextFiles()
+    val conf = new SparkConf().setAppName("spark-rdd-test")
+//    conf.set("spark.executor.extraJavaOptions",	
+//        "-XX:+UseCompressedOops -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps");
+//    conf.set("spark.executor.instances", "2");
+//    conf.set("spark.executor.memory","512m");
+//    conf.set("mapreduce.input.fileinputformat.split.minsize", "64m");
+    val sc = new SparkContext(conf)
+    val rdd = sc.textFile("hdfs://ice5:9000/user/leon/wiki-edit-history-topic-2016-09-06-23.1473175558976");
+    println(rdd.setName("test").persist.collect().size)
+    rdd.partitions.foreach { x => println(x) }
+    //sc.getRDDStorageInfo.foreach { x => println(x) };
+    Thread.sleep(60000);
   }
 
 }
