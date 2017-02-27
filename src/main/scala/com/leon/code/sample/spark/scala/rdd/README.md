@@ -16,7 +16,8 @@ sample(withReplacement, fraction, seed) | Sample a fraction _fraction_ of the da
 distinct([numTasks])) |Return a new dataset that contains the distinct elements of the source dataset. | Yes | rdd.distinct() | {2, 1, 3} |
 pipe(command, [envVars]) | Pipe each partition of the RDD through a shell command, e.g. a Perl or bash script. RDD elements are written to the process's stdin and lines output to its stdout are returned as an RDD of strings |No|rdd.pipe("head -n 1") | {3, 3} |
 glom | Assembles an array that contains all elements of the partition and embeds it in an RDD. Each returned array contains the contents of one partition | No | rdd.glom | {{3, 1}, {3,  2} } |
-groupBy | Return an RDD of grouped items. Each group consists of a key and a sequence of elements mapping to that key. The ordering of elements within each group is not guaranteed, and may even differ each time the resulting RDD is evaluated | Yes | rdd.groupBy(x => { if (x % 2 == 0) "even" else "odd" }) | {(even, {2}), (odd, {3, 1, 3})} |
+groupBy(func) | Return an RDD of grouped items. Each group consists of a key and a sequence of elements mapping to that key. The ordering of elements within each group is not guaranteed, and may even differ each time the resulting RDD is evaluated | Yes | rdd.groupBy(x => { if (x % 2 == 0) "even" else "odd" }) | {(even, {2}), (odd, {3, 1, 3})} |
+sortBy(func, ascending) | This function sorts the input RDD's data and stores it in a new RDD. The first parameter requires you to specify a function which  maps the input data into the key that you want to sortBy. The second parameter (optional) specifies whether you want the data to be sorted in ascending or descending order | Yes | rdd.sortBy(x => x, false) | {3, 3, 2, 1} |
 
 ## Two RDDs transformations 
 example of running two-RDD transformations on RDDs containing {1, 2, 3}  and {3, 4 ,5}:

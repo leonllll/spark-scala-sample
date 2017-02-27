@@ -65,6 +65,11 @@ object RddFunctionExample {
     val resultOfGroup = rdd.groupBy(x => { if (x % 2 == 0) "even" else "odd" }).collect
     println("groupBy: ")
     resultOfGroup.map{ x => println(x._1 + ", {" + x._2.mkString(", ") + "}")}
+    
+    // 11. sortBy
+    val resultOfSortBy = rdd.sortBy(x => x, false).collect
+    println("sortBy: " + resultOfSortBy.mkString(", "))
+    
   }
   
   def twoRddsTransformations(sc: SparkContext) {
